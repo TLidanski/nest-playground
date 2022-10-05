@@ -31,4 +31,3 @@ import configurations from './config/configurations';
 	providers: [AppService],
 })
 export class AppModule {}
-// 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
