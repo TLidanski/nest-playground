@@ -49,7 +49,16 @@ describe('UsersService', () => {
 
     describe('findByUsername', () => {
         it('should return a user', () => {
-            expect(service.findByUsername('')).resolves.toEqual(user);
+            const repoSpy = jest.spyOn(repo, 'findOneBy');
+            expect(service.findByUsername('username')).resolves.toEqual(user);
+            expect(repoSpy).toHaveBeenCalledWith({username: 'username'});
+        });
+
+        it('should return undefined', () => {
+            const repoSpy = jest.spyOn(repo, 'findOneBy');
+            repoSpy.mockResolvedValue(undefined);
+            expect(service.findByUsername('username')).resolves.toBeUndefined();
+            expect(repoSpy).toHaveBeenCalledWith({username: 'username'});
         });
     });
 });
