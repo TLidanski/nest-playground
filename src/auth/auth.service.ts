@@ -11,15 +11,15 @@ export class AuthService {
         private jwtService: JwtService
     ) {}
 
-    async login(authCredentialsDto: AuthCredentialsDTO): Promise<Object> {
+    async login(authCredentialsDto: AuthCredentialsDTO): Promise<{accessToken: string}> {
         const {username, password} = authCredentialsDto;
-        const user: User = await this.usersService.findByUsername(username);
+        const user: User | undefined = await this.usersService.findByUsername(username);
         if (!user || user.password !== password) {
             throw new UnauthorizedException();
         }
         const payload = {username, sub: user.id};
         return {
-            access_token: this.jwtService.sign(payload)
+            accessToken: this.jwtService.sign(payload)
         }
     }
 }
